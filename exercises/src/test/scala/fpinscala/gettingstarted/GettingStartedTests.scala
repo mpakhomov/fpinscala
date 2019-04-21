@@ -33,5 +33,10 @@ class GettingStartedTests extends FunSuite with Matchers {
       val plusUncurried: (Int, Int) => Int = PolymorphicFunctions.uncurry(plusCurried)
       plusUncurried(1, 2) shouldBe 3
     }
+    test("PolymorphicFunctions.compose") {
+      val f: Int => String = x => s"$x" * x
+      val g: Int => Int = x => x * x
+      PolymorphicFunctions.compose(f, g)(2) shouldBe "4444"
+    }
 
 }
