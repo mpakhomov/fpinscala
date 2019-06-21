@@ -52,10 +52,13 @@ object List { // `List` companion object. Contains functions for creating and wo
 
   def tail[A](l: List[A]): List[A] = l match {
     case Cons(_, tail) => tail
-    case Nil => throw new Error("tail on empty list!")
+    case Nil => throw new Error("tail on empty list")
   }
 
-  def setHead[A](l: List[A], h: A): List[A] = ???
+  def setHead[A](l: List[A], h: A): List[A] = l match {
+    case Cons(_, tail) => Cons(h, tail)
+    case Nil => throw new Error("setHead on empty list")
+  }
 
   def drop[A](l: List[A], n: Int): List[A] = ???
 

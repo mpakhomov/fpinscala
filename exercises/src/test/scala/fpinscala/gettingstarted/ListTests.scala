@@ -20,6 +20,18 @@ class ListTests extends WordSpec with Matchers {
       }
     }
 
+    "setHead on a non-empty list" in {
+      List.setHead(List(1, 2), 42) shouldBe List(42, 2)
+      List.setHead(Cons(1, Cons(2, Nil)), 42) shouldBe Cons(42, Cons(2, Nil))
+      List.setHead(List(1), 42) shouldBe List(42)
+    }
+
+    "throw an exception when calling setHead on empty list" in {
+      assertThrows[Throwable] {
+        List.setHead(Nil, 42)
+      }
+    }
+
   }
 
 
