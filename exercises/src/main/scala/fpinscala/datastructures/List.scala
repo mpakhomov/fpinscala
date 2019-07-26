@@ -60,7 +60,13 @@ object List { // `List` companion object. Contains functions for creating and wo
     case Nil => throw new Error("setHead on empty list")
   }
 
-  def drop[A](l: List[A], n: Int): List[A] = ???
+  def drop[A](l: List[A], n: Int): List[A] = l match {
+    case Cons(_, t) =>
+      if (n > 1) drop(t, n - 1)
+      else if (n == 1) t
+      else l
+    case Nil => Nil
+  }
 
   def dropWhile[A](l: List[A], f: A => Boolean): List[A] = ???
 
