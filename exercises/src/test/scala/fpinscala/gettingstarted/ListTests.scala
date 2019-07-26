@@ -58,6 +58,21 @@ class ListTests extends WordSpec with Matchers {
       }
     }
 
+    "dropWhile function is used" must {
+      "drop element while predicate holds" in {
+        List.dropWhile(List(1, 2, 3, 4), (x: Int) => x < 3) shouldBe List(3, 4)
+      }
+    }
+
+    "init function is used" must {
+      "return all elements except the last one" in {
+        List.init(List(1, 2, 3)) shouldBe List(1, 2)
+      }
+      "throw an error on empty list" in {
+        assertThrows[Throwable](List.init(Nil))
+      }
+    }
+
   }
 
 
