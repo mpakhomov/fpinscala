@@ -73,7 +73,44 @@ class ListTests extends WordSpec with Matchers {
       }
     }
 
+    "foldRight function is used" must {
+      "build a list" in {
+        List.foldRight(List(1, 2, 3), Nil: List[Int])(Cons(_, _)) shouldBe List(1, 2, 3)
+      }
+    }
+
+    "foldLeft function is used" must {
+      "calculate the sum of the list" in {
+        List.foldLeft(List(1, 2, 3), 0)(_ + _) shouldBe 6
+      }
+      "calculate the product of the list" in {
+        List.foldLeft(List(2, 3, 4), 1)(_ * _) shouldBe 24
+      }
+    }
+
+    "reverse function is used" must {
+      "reverse the list" in {
+        List.reverse(List(1, 2, 3)) shouldBe List(3, 2, 1)
+      }
+    }
+
+    "reverse1 function is used" must {
+      "reverse the list" in {
+        List.reverse1(List(1, 2, 3)) shouldBe List(3, 2, 1)
+      }
+    }
+
+    "length function is used" must {
+      "compute the length" in {
+        List.length(List(1, 2, 3)) shouldBe 3
+      }
+    }
+
+    "foldRightViaFoldLeft function is used " must {
+      "build a list" in {
+        List.foldRightViaFoldLeft(List(1, 2, 3), List[Int]())(Cons(_, _))
+      }
+    }
+
   }
-
-
 }

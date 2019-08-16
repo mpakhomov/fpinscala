@@ -1,5 +1,7 @@
 package fpinscala.datastructures
 
+import scala.annotation.tailrec
+
 sealed trait List[+A] // `List` data type, parameterized on a type, `A`
 case object Nil extends List[Nothing] // A `List` data constructor representing the empty list
 /* Another data constructor, representing nonempty lists. Note that `tail` is another `List[A]`,
@@ -49,7 +51,6 @@ object List { // `List` companion object. Contains functions for creating and wo
   def product2(ns: List[Double]) =
     foldRight(ns, 1.0)(_ * _) // `_ * _` is more concise notation for `(x,y) => x * y`; see sidebar
 
-
   def tail[A](l: List[A]): List[A] = l match {
     case Cons(_, tail) => tail
     case Nil => throw new Error("tail on empty list")
@@ -79,9 +80,25 @@ object List { // `List` companion object. Contains functions for creating and wo
     case Nil => sys.error("init on empty list")
   }
 
-  def length[A](l: List[A]): Int = ???
+  def length[A](l: List[A]): Int =
+    List.foldLeft(l, 0)((acc, _) => 1 + acc)
 
-  def foldLeft[A,B](l: List[A], z: B)(f: (B, A) => B): B = ???
+  @tailrec
+  def foldLeft[A,B](l: List[A], z: B)(f: (B, A) => B): B =  l match {
+    case Nil => z
+    case Cons(h, t) => foldLeft(t, f(z, h))(f)
+  }
+  def reverse[A](l: List[A]): List[A] =
+    List.foldLeft(l, List[A]())((acc, a) => Cons(a, acc))
+
+  def reverse1[A](l: List[A]): List[A] = l match {
+    case Nil => Nil
+    case Cons(h, t) => append(reverse1(t), List(h))
+  }
+
+  def foldRightViaFoldLeft[A, B](as: List[A], z: B)(f: (A, B) => B): B =
+    foldLeft(List.reverse(as),z)((acc, a) => f(a, acc))
+
 
   def map[A,B](l: List[A])(f: A => B): List[B] = ???
 }
