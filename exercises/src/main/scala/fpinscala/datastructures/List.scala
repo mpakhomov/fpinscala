@@ -97,13 +97,16 @@ object List { // `List` companion object. Contains functions for creating and wo
   }
 
   def foldRightViaFoldLeft[A, B](as: List[A], z: B)(f: (A, B) => B): B =
-    foldLeft(List.reverse(as),z)((acc, a) => f(a, acc))
+    foldLeft(reverse(as),z)((acc, a) => f(a, acc))
 
   def appendViaFold[A](a1: List[A], a2: List[A]): List[A] =
     foldRight(a1, a2)(Cons(_, _))
 
   def flatten[A](l: List[List[A]]): List[A] =
     foldRight(l, Nil: List[A])(append)
+
+  // alias for flatten, because in the book the function is called concat, not flatten
+  def concat[A](l: List[List[A]]): List[A] = flatten(l)
 
   def add1(l: List[Int]): List[Int] =
     foldRight(l, Nil: List[Int])((x: Int, acc: List[Int]) => Cons(x + 1, acc))
@@ -125,4 +128,37 @@ object List { // `List` companion object. Contains functions for creating and wo
     go(l)
     List(buf.toList: _*) // converting from the standard Scala list to the list we've defined here
   }
+
+  /*
+   * Write a function filter that removes elements from a list unless they satisfy a given
+   * predicate. Use it to remove all odd numbers from a List[Int].
+   */
+  def filter[A](as: List[A])(f: A => Boolean): List[A] = as match {
+    case Nil => as
+    case Cons(h, t) => if (f(h)) Cons(h, filter(t)(f)) else filter(t)(f)
+  }
+
+  def filter_1[A](as: List[A])(f: A => Boolean): List[A] =
+    foldRight(as, Nil: List[A])((h, t) => if (f(h)) Cons(h, t) else t)
+
+  def filter_2[A](as: List[A])(f: A => Boolean): List[A] =
+    foldRightViaFoldLeft(as, Nil: List[A])((h, t) => if (f(h)) Cons(h, t) else t)
+
+  def filter_3[A](as: List[A])(f: A => Boolean): List[A] = {
+    val buf = new collection.mutable.ListBuffer[A]
+    @tailrec
+    def loop(as: List[A]): List[A] = as match {
+      case Nil => as
+      case Cons(h, t) => if (f(h)) buf += h; loop(t)
+    }
+    loop(as)
+    List(buf.toList : _*)
+  }
+
+  def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] =
+    flatten(map(as)(f))
+
+  def flatMap_1[A,B](as: List[A])(f: A => List[B]): List[B] =
+    foldRight(as, Nil: List[B])((h, t) => append(f(h), t))
+
 }

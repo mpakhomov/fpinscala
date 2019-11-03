@@ -121,6 +121,7 @@ class ListTests extends WordSpec with Matchers {
     "flatten function is used " must {
       "flatten a list" in {
         List.flatten(List(List(1), List(2), List(3))) shouldBe List[Int](1, 2, 3)
+        List.concat(List(List(1), List(2), List(3))) shouldBe List[Int](1, 2, 3)
       }
     }
 
@@ -140,6 +141,22 @@ class ListTests extends WordSpec with Matchers {
       "transform a list" in {
         List.map(List(1, 2, 3))(x => (x * 2).toString()) shouldBe List[String]("2", "4", "6")
         List.map_2(List(1, 2, 3))(x => (x * 2).toString()) shouldBe List[String]("2", "4", "6")
+      }
+    }
+
+    "filter function is used " must {
+      "remove all odd numbers from list of ints" in {
+        List.filter(List(1, 2, 3, 4))(_ % 2 == 0) shouldBe List[Int](2, 4)
+        List.filter_1(List(1, 2, 3, 4))(_ % 2 == 0) shouldBe List[Int](2, 4)
+        List.filter_2(List(1, 2, 3, 4))(_ % 2 == 0) shouldBe List[Int](2, 4)
+        List.filter_3(List(1, 2, 3, 4))(_ % 2 == 0) shouldBe List[Int](2, 4)
+      }
+    }
+
+    "flatMap function is used " must {
+      "transform a list" in {
+        List.flatMap(List(1, 2, 3))(i => List(i, i)) shouldBe List[Int](1, 1, 2, 2, 3, 3)
+        List.flatMap_1(List(1, 2, 3))(i => List(i, i)) shouldBe List[Int](1, 1, 2, 2, 3, 3)
       }
     }
 
