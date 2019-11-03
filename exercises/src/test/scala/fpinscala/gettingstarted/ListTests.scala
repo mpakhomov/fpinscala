@@ -124,5 +124,24 @@ class ListTests extends WordSpec with Matchers {
       }
     }
 
+    "add1 function is used " must {
+      "transform a list of integers by adding 1 to each element" in {
+        List.add1(List(1, 2, 3)) shouldBe List[Int](2, 3, 4)
+      }
+    }
+
+    "doubleToString function is used " must {
+      "turn each value in a List[Double] into a String" in {
+        List.doubleToString(List(1.0, 2.0, 3.0)) shouldBe List[String]("1.0", "2.0", "3.0")
+      }
+    }
+
+    "map function is used " must {
+      "transform a list" in {
+        List.map(List(1, 2, 3))(x => (x * 2).toString()) shouldBe List[String]("2", "4", "6")
+        List.map_2(List(1, 2, 3))(x => (x * 2).toString()) shouldBe List[String]("2", "4", "6")
+      }
+    }
+
   }
 }

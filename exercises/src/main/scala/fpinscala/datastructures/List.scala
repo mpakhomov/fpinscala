@@ -105,5 +105,24 @@ object List { // `List` companion object. Contains functions for creating and wo
   def flatten[A](l: List[List[A]]): List[A] =
     foldRight(l, Nil: List[A])(append)
 
-  def map[A,B](l: List[A])(f: A => B): List[B] = ???
+  def add1(l: List[Int]): List[Int] =
+    foldRight(l, Nil: List[Int])((x: Int, acc: List[Int]) => Cons(x + 1, acc))
+//    foldRight(l, Nil: List[Int])((h, t) => Cons(h + 1 , t))
+
+  def doubleToString(l: List[Double]): List[String] =
+    foldRight(l, Nil: List[String])((x: Double, acc: List[String]) => Cons(x.toString, acc))
+
+  def map[A,B](l: List[A])(f: A => B): List[B] =
+    foldRight(l, Nil: List[B])((x: A, acc: List[B]) => Cons(f(x), acc))
+
+  def map_2[A,B](l: List[A])(f: A => B): List[B] = {
+    val buf = new collection.mutable.ListBuffer[B]
+    @tailrec
+    def go(l: List[A]): Unit = l match {
+      case Nil => ()
+      case Cons(h,t) => buf += f(h); go(t)
+    }
+    go(l)
+    List(buf.toList: _*) // converting from the standard Scala list to the list we've defined here
+  }
 }
