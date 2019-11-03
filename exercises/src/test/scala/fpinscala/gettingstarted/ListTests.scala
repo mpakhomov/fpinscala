@@ -108,7 +108,19 @@ class ListTests extends WordSpec with Matchers {
 
     "foldRightViaFoldLeft function is used " must {
       "build a list" in {
-        List.foldRightViaFoldLeft(List(1, 2, 3), List[Int]())(Cons(_, _))
+        List.foldRightViaFoldLeft(List(1, 2, 3), List[Int]())(Cons(_, _)) shouldBe List(1, 2, 3)
+      }
+    }
+
+    "appendViaFold function is used " must {
+      "append a list" in {
+        List.appendViaFold(List(1, 2, 3), List[Int](4, 5, 6)) shouldBe List[Int](1, 2, 3, 4, 5, 6)
+      }
+    }
+
+    "flatten function is used " must {
+      "flatten a list" in {
+        List.flatten(List(List(1), List(2), List(3))) shouldBe List[Int](1, 2, 3)
       }
     }
 
