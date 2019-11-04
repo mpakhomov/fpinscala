@@ -200,10 +200,10 @@ class ListTests extends WordSpec with Matchers {
         List.hasSubsequence(List(1, 2, 3, 4), List(1, 2)) should be (true)
         List.hasSubsequence(List(1, 2, 3, 4), List(1)) should be (true)
         List.hasSubsequence(List(1, 2, 3, 4), List(2, 3)) shouldBe true
-        List.hasSubsequence(List(1, 2, 3, 4), List(4, 5)) === false
-        List.hasSubsequence(List(1, 2, 3, 4), Nil) === true
-        List.hasSubsequence(Nil, Nil) === true
-        List.hasSubsequence(Nil, List(1)) === false
+        List.hasSubsequence(List(1, 2, 3, 4), List(4, 5)) shouldBe false
+        List.hasSubsequence(List(1, 2, 3, 4), Nil) shouldBe true
+        List.hasSubsequence(Nil, Nil) shouldBe true
+        List.hasSubsequence(Nil, List(1)) shouldBe false
       }
     }
 
