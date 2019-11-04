@@ -1,4 +1,4 @@
-package fpinscala.gettingstarted
+package datastructures
 
 import fpinscala.datastructures.{Cons, List, Nil}
 import org.scalatest.{Matchers, WordSpec}
