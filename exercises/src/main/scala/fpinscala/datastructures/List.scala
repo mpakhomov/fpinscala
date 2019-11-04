@@ -155,10 +155,35 @@ object List { // `List` companion object. Contains functions for creating and wo
     List(buf.toList : _*)
   }
 
+  def filter_4[A](as: List[A])(f: A => Boolean): List[A] =
+    flatMap(as)(x => if (f(x)) List(x) else Nil)
+
   def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] =
     flatten(map(as)(f))
 
   def flatMap_1[A,B](as: List[A])(f: A => List[B]): List[B] =
     foldRight(as, Nil: List[B])((h, t) => append(f(h), t))
 
+  def sumLists(as: List[Int], bs: List[Int]): List[Int] = (as, bs) match {
+    case (Cons(h1, t1), Cons(h2, t2)) => Cons(h1 + h2, sumLists(t1, t2))
+    case _ => Nil
+  }
+
+  def zipWith[A, B, C](as: List[A], bs: List[B])(f: (A, B) => C): List[C] = (as, bs) match {
+    case (Cons(h1, t1), Cons(h2, t2)) => Cons(f(h1, h2), zipWith(t1, t2)(f))
+    case _ => Nil
+  }
+
+  @tailrec
+  def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = sup match {
+    case Cons(_, t) => if (startsWith (sup, sub)) true else hasSubsequence(t, sub)
+    case _ => false
+  }
+
+  @tailrec
+  def startsWith[A](sup: List[A], sub: List[A]): Boolean = (sup, sub) match {
+    case (Cons(h1, t1), Cons(h2, t2)) => if (h1 != h2) false else startsWith(t1, t2)
+    case (Nil, Cons(_, _)) => false
+    case _ => true
+  }
 }

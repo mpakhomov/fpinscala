@@ -150,6 +150,7 @@ class ListTests extends WordSpec with Matchers {
         List.filter_1(List(1, 2, 3, 4))(_ % 2 == 0) shouldBe List[Int](2, 4)
         List.filter_2(List(1, 2, 3, 4))(_ % 2 == 0) shouldBe List[Int](2, 4)
         List.filter_3(List(1, 2, 3, 4))(_ % 2 == 0) shouldBe List[Int](2, 4)
+        List.filter_4(List(1, 2, 3, 4))(_ % 2 == 0) shouldBe List[Int](2, 4)
       }
     }
 
@@ -157,6 +158,52 @@ class ListTests extends WordSpec with Matchers {
       "transform a list" in {
         List.flatMap(List(1, 2, 3))(i => List(i, i)) shouldBe List[Int](1, 1, 2, 2, 3, 3)
         List.flatMap_1(List(1, 2, 3))(i => List(i, i)) shouldBe List[Int](1, 1, 2, 2, 3, 3)
+      }
+    }
+
+    "sumLists function is used " must {
+      "build up a new list by summing up corresponding elements of each lists" in {
+        List.sumLists(List(1, 2, 3), List(4, 5, 6 )) shouldBe List(5, 7, 9)
+      }
+    }
+
+    "zipWith function is used " must {
+      "combine two lists" in {
+        List.zipWith(List(1, 2, 3), List(4, 5, 6 ))(_ + _) shouldBe List(5, 7, 9)
+        List.zipWith(List("a", "b", "c"), List(1, 2, 3 ))((x, y) => (y, x)) shouldBe List((1, "a"), (2, "b"), (3, "c"))
+        List.zipWith(List("a", "b", "c"), List(1, 2, 3 ))(identity(_, _)) shouldBe List(("a", 1), ("b", 2), ("c", 3))
+      }
+
+      "combine two lists of different length" in {
+        List.zipWith(List(1, 2, 3), List(4, 5, 6, 7 ))(_ + _) shouldBe List(5, 7, 9)
+        List.zipWith(List(1, 2, 3, 42), List(4, 5, 6 ))(_ + _) shouldBe List(5, 7, 9)
+        List.zipWith(List("a", "b", "c"), List(1, 2, 3, 4))((x, y) => (y, x)) shouldBe List((1, "a"), (2, "b"), (3, "c"))
+        List.zipWith(List("a", "b", "c", "d"), List(1, 2, 3 ))(identity(_, _)) shouldBe List(("a", 1), ("b", 2), ("c", 3))
+      }
+    }
+
+    "startsWith function is used " must {
+      "find out if a List starts with another List as a subsequence" in {
+        List.startsWith(List(1, 2, 3), List(1, 2)) shouldEqual true
+        List.startsWith(List(1, 2, 3), List(1, 2, 3)) shouldEqual true
+        List.startsWith(List(1, 2, 3), List(1, 2, 3, 4)) shouldEqual false
+        List.startsWith(List(1, 2, 3), List(2, 3)) shouldEqual false
+        List.startsWith(List(1, 2, 3), List(2, 3)) shouldEqual false
+        List.startsWith(Nil, Nil) shouldEqual true
+        List.startsWith(Nil, List(1)) shouldEqual false
+      }
+    }
+
+    "hasSubsequence function is used " must {
+      "find out if a List contains another List as a subsequence" in {
+        List.hasSubsequence(List(1, 2, 3, 4), List(1, 2, 3)) shouldEqual true
+        List.hasSubsequence(List(1, 2, 3, 4), List(1, 2)) should be (true)
+        List.hasSubsequence(List(1, 2, 3, 4), List(1)) should be (true)
+        List.hasSubsequence(List(1, 2, 3, 4), List(2, 3)) shouldBe true
+        List.hasSubsequence(List(1, 2, 3, 4), List(4, 5)) === false
+        List.hasSubsequence(List(1, 2, 3, 4), Nil) === true
+        List.hasSubsequence(Nil, Nil) === true
+        List.hasSubsequence(Nil, List(1)) === false
       }
     }
 
