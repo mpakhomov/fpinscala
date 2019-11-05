@@ -177,7 +177,7 @@ object List { // `List` companion object. Contains functions for creating and wo
   @tailrec
   def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = sup match {
     case Cons(_, t) => if (startsWith (sup, sub)) true else hasSubsequence(t, sub)
-    case _ => false
+    case Nil => sub == Nil
   }
 
   @tailrec
